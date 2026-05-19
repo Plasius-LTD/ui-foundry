@@ -1,0 +1,163 @@
+name: Release npm Package
+
+on:
+  workflow_dispatch:
+    inputs:
+      package_directory:
+        description: "Path to package directory (example: packages/core)"
+        required: true
+        type: string
+        default: "packages/core"
+      npm_tag:
+        description: "npm dist-tag"
+        required: false
+        type: string
+        default: "latest"
+      run_tests:
+        description: "Run package tests before publishing"
+        required: false
+        type: boolean
+        default: true
+      run_build:
+        description: "Run package build before publishing"
+        required: false
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: npm-release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    name: Publish package to npm
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: ".nvmrc"
+          registry-url: "https://registry.npmjs.org"
+          cache: "npm"
+
+      - name: Install repo dependencies
+        run: npm ci --no-fund --no-audit --legacy-peer-deps
+
+      - name: Validate package metadata
+        id: pkg
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          PACKAGE_DIR="${{ inputs.package_directory }}"
+          PACKAGE_JSON="$PACKAGE_DIR/package.json"
+
+          if [ ! -f "$PACKAGE_JSON" ]; then
+            echo "Package manifest not found: $PACKAGE_JSON"
+            exit 1
+          fi
+
+          PKG_NAME=$(node -e "const p=require('./$PACKAGE_JSON'); process.stdout.write(p.name || '')")
+          PKG_VERSION=$(node -e "const p=require('./$PACKAGE_JSON'); process.stdout.write(p.version || '')")
+          PKG_PRIVATE=$(node -e "const p=require('./$PACKAGE_JSON'); process.stdout.write(String(Boolean(p.private)))")
+          PKG_ACCESS=$(node -e "const p=require('./$PACKAGE_JSON'); process.stdout.write((p.publishConfig && p.publishConfig.access) || '')")
+
+          if [ -z "$PKG_NAME" ] || [ -z "$PKG_VERSION" ]; then
+            echo "Package name/version are required in $PACKAGE_JSON"
+            exit 1
+          fi
+
+          if [ "$PKG_PRIVATE" = "true" ]; then
+            echo "Cannot publish private package: $PKG_NAME"
+            exit 1
+          fi
+
+          if [ -z "$PKG_ACCESS" ] && [[ "$PKG_NAME" == @*/* ]]; then
+            PKG_ACCESS="public"
+          fi
+
+          echo "package_dir=$PACKAGE_DIR" >> "$GITHUB_OUTPUT"
+          echo "package_name=$PKG_NAME" >> "$GITHUB_OUTPUT"
+          echo "package_version=$PKG_VERSION" >> "$GITHUB_OUTPUT"
+          echo "package_access=$PKG_ACCESS" >> "$GITHUB_OUTPUT"
+
+          echo "Preparing release for $PKG_NAME@$PKG_VERSION from $PACKAGE_DIR"
+
+      - name: Ensure version is not already published
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          PKG_NAME="${{ steps.pkg.outputs.package_name }}"
+          PKG_VERSION="${{ steps.pkg.outputs.package_version }}"
+
+          if npm view "$PKG_NAME@$PKG_VERSION" version --registry https://registry.npmjs.org >/dev/null 2>&1; then
+            echo "Version already exists on npm: $PKG_NAME@$PKG_VERSION"
+            exit 1
+          fi
+
+      - name: Run package tests
+        if: ${{ inputs.run_tests }}
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          PACKAGE_DIR="${{ steps.pkg.outputs.package_dir }}"
+          HAS_TEST=$(node -e "const p=require('./$PACKAGE_DIR/package.json'); process.stdout.write(p.scripts && p.scripts.test ? 'true' : 'false')")
+
+          if [ "$HAS_TEST" = "true" ]; then
+            npm --prefix "$PACKAGE_DIR" run test
+          else
+            echo "No test script found in $PACKAGE_DIR/package.json; skipping tests"
+          fi
+
+      - name: Run package build
+        if: ${{ inputs.run_build }}
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          PACKAGE_DIR="${{ steps.pkg.outputs.package_dir }}"
+          HAS_BUILD=$(node -e "const p=require('./$PACKAGE_DIR/package.json'); process.stdout.write(p.scripts && p.scripts.build ? 'true' : 'false')")
+
+          if [ "$HAS_BUILD" = "true" ]; then
+            npm --prefix "$PACKAGE_DIR" run build
+          else
+            echo "No build script found in $PACKAGE_DIR/package.json; skipping build"
+          fi
+
+      - name: Publish package
+        shell: bash
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          set -euo pipefail
+
+          PACKAGE_DIR="${{ steps.pkg.outputs.package_dir }}"
+          ACCESS="${{ steps.pkg.outputs.package_access }}"
+          TAG="${{ inputs.npm_tag }}"
+
+          if [ -z "$NODE_AUTH_TOKEN" ]; then
+            echo "NPM_TOKEN is required"
+            exit 1
+          fi
+
+          PUBLISH_ARGS=("--provenance" "--tag" "$TAG" "--registry" "https://registry.npmjs.org")
+
+          if [ "$ACCESS" = "public" ]; then
+            PUBLISH_ARGS=("--access" "public" "${PUBLISH_ARGS[@]}")
+          fi
+
+          echo "Publishing from $PACKAGE_DIR with tag '$TAG'"
+          npm --prefix "$PACKAGE_DIR" publish "${PUBLISH_ARGS[@]}"

@@ -1,0 +1,43 @@
+{
+  "name": "@plasius/ui-foundry-cli",
+  "version": "0.1.0",
+  "type": "module",
+  "bin": {
+    "ui-foundry": "dist/bin.cjs"
+  },
+  "main": "./dist/bin.cjs",
+  "module": "./dist/bin.js",
+  "types": "./dist/bin.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/bin.d.ts",
+      "import": "./dist/bin.js",
+      "require": "./dist/bin.cjs"
+    }
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "dependencies": {
+    "commander": "^12",
+    "prompts": "^2",
+    "fast-glob": "^3",
+    "fs-extra": "^11",
+    "handlebars": "^4.7.9"
+  },
+  "devDependencies": {
+    "typescript": "^5.6",
+    "tsup": "^8"
+  },
+  "scripts": {
+    "build": "tsup src/bin.ts --format cjs,esm --dts --clean",
+    "pack:check": "node scripts/verify-public-package.cjs",
+    "prepublishOnly": "npm run build && npm run pack:check"
+  },
+  "overrides": {
+    "picomatch": "^4.0.4"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

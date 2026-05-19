@@ -1,0 +1,75 @@
+{
+  "name": "@plasius/ui-foundry",
+  "version": "1.0.0",
+  "description": "A generic NFR compatible UI component builder tool.",
+  "private": true,
+  "keywords": [
+    "react",
+    "typescript",
+    "ui",
+    "ui-components",
+    "component-library",
+    "design-system",
+    "hooks",
+    "utilities",
+    "accessible",
+    "typed",
+    "plasius",
+    "ui-foundry"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "packageManager": "npm@11.6.0",
+  "workspaces": [
+    "packages/*",
+    "packages/integrations/*"
+  ],
+  "homepage": "https://github.com/Plasius-LTD/ui-foundry#readme",
+  "bugs": {
+    "url": "https://github.com/Plasius-LTD/ui-foundry/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Plasius-LTD/ui-foundry.git"
+  },
+  "license": "Apache-2.0",
+  "author": "Plasius LTD",
+  "type": "module",
+  "scripts": {
+    "build": "npm run -w @plasius/ui-foundry-core build && npm run -w @plasius/ui-foundry-components build && npm run -w @plasius/ui-foundry-analytics-appinsights build",
+    "pack:check": "npm run -w @plasius/ui-foundry-core pack:check && npm run -w @plasius/ui-foundry-components pack:check && npm run -w @plasius/ui-foundry-analytics-appinsights pack:check",
+    "test": "npm run -w @plasius/ui-foundry-core test && npm run -w @plasius/ui-foundry-components test && npm run -w @plasius/ui-foundry-analytics-appinsights test",
+    "test:coverage": "vitest run --coverage.enabled true",
+    "lint": "ESLINT_USE_FLAT_CONFIG=false eslint .",
+    "format": "prettier -w .",
+    "release": "echo \"Use GitHub Actions workflow 'Release npm Package' to publish.\" && exit 1",
+    "docs": "npm run -w @plasius/ui-foundry-docs dev"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.29.7",
+    "axe-core": "^4.11.1",
+    "@testing-library/jest-dom": "^6.8.0",
+    "@testing-library/react": "^16.3.0",
+    "@types/node": "^24.5.1",
+    "@typescript-eslint/eslint-plugin": "^8.44.0",
+    "@typescript-eslint/parser": "^8.44.0",
+    "@vitest/coverage-v8": "^4.0.18",
+    "eslint": "^9.35.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "jsdom": "^27.0.0",
+    "prettier": "^3.6.2",
+    "tsup": "^8.5.0",
+    "tsx": "^4.20.5",
+    "typescript": "^5.9.2",
+    "vitest": "^4.0.18"
+  },
+  "overrides": {
+    "minimatch": "^10.2.1",
+    "picomatch": "^4.0.4",
+    "postcss": "^8.5.14",
+    "vite": "^8.0.13"
+  }
+}
