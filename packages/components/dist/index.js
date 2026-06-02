@@ -1,16 +1,6 @@
-// @ts-ignore - react type declarations may not be installed in minimal checkouts.
+// src/index.ts
 import React from "react";
-
-export type FoundryStackProps = {
-  children?: React.ReactNode;
-  gap?: number;
-  direction?: "row" | "column";
-  align?: "start" | "center" | "end" | "stretch";
-  justify?: "start" | "center" | "end" | "space-between";
-  className?: string;
-};
-
-function toAlignItems(value: NonNullable<FoundryStackProps["align"]>) {
+function toAlignItems(value) {
   switch (value) {
     case "start":
       return "flex-start";
@@ -20,8 +10,7 @@ function toAlignItems(value: NonNullable<FoundryStackProps["align"]>) {
       return value;
   }
 }
-
-function toJustifyContent(value: NonNullable<FoundryStackProps["justify"]>) {
+function toJustifyContent(value) {
   switch (value) {
     case "start":
       return "flex-start";
@@ -31,15 +20,14 @@ function toJustifyContent(value: NonNullable<FoundryStackProps["justify"]>) {
       return value;
   }
 }
-
-export function FoundryStack({
+function FoundryStack({
   children,
   gap = 12,
   direction = "column",
   align = "stretch",
   justify = "start",
-  className,
-}: FoundryStackProps) {
+  className
+}) {
   return React.createElement(
     "div",
     {
@@ -49,21 +37,13 @@ export function FoundryStack({
         flexDirection: direction,
         gap,
         alignItems: toAlignItems(align),
-        justifyContent: toJustifyContent(justify),
-      },
+        justifyContent: toJustifyContent(justify)
+      }
     },
     children
   );
 }
-
-export type FoundryButtonProps = {
-  label: string;
-  tone?: "neutral" | "primary" | "danger";
-  disabled?: boolean;
-  onClick?: () => void;
-};
-
-function buttonColors(tone: NonNullable<FoundryButtonProps["tone"]>) {
+function buttonColors(tone) {
   switch (tone) {
     case "primary":
       return { background: "#2457f5", color: "#ffffff" };
@@ -73,13 +53,12 @@ function buttonColors(tone: NonNullable<FoundryButtonProps["tone"]>) {
       return { background: "#e9edf4", color: "#132033" };
   }
 }
-
-export function FoundryButton({
+function FoundryButton({
   label,
   tone = "neutral",
   disabled = false,
-  onClick,
-}: FoundryButtonProps) {
+  onClick
+}) {
   const colors = buttonColors(tone);
   return React.createElement(
     "button",
@@ -95,11 +74,16 @@ export function FoundryButton({
         background: colors.background,
         color: colors.color,
         cursor: disabled ? "not-allowed" : "pointer",
-        opacity: disabled ? 0.6 : 1,
-      },
+        opacity: disabled ? 0.6 : 1
+      }
     },
     label
   );
 }
-
-export const version = "0.1.0";
+var version = "0.1.0";
+export {
+  FoundryButton,
+  FoundryStack,
+  version
+};
+//# sourceMappingURL=index.js.map

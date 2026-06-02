@@ -31,11 +31,6 @@ import { /* ... */ } from "@plasius/ui-foundry-components";
 
 `npm run build` emits `dist/index.js`, `dist/index.cjs`, and `dist/index.d.ts`.
 
-## Testing
-
-`npm test -w @plasius/ui-foundry-components` runs the package-local rendering,
-interaction, and accessibility checks for `FoundryStack` and `FoundryButton`.
-
 ---
 
 ## Contributing

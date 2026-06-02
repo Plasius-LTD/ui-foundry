@@ -97,12 +97,6 @@ export function CheckoutButton() {
 This package ships with **Vitest tests** using a fake App Insights client.  
 You don’t need the real SDK to test integrations.
 
-Run them locally with:
-
-```bash
-npm test -w @plasius/ui-foundry-analytics-appinsights
-```
-
 Example from the test suite:
 
 ```ts

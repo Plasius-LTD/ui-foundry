@@ -31,11 +31,6 @@ import { /* ... */ } from "@plasius/ui-foundry-core";
 
 `npm run build` emits `dist/index.js`, `dist/index.cjs`, and `dist/index.d.ts`.
 
-## Testing
-
-`npm test -w @plasius/ui-foundry-core` runs the package-local `AnalyticsProvider` and
-`useAnalytics` behavior tests.
-
 ---
 
 ## Contributing

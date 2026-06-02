@@ -1,8 +1,8 @@
 import type {
   AnalyticsAdapter,
   AnalyticsEvent,
-} from "@plasius/ui-foundry-core";
-import type { AppInsightsClient } from "./client.js";
+} from "@plasius/ui-foundry-core/analytics/types";
+import type { AppInsightsClient } from "./client";
 
 /**
  * Creates an AnalyticsAdapter backed by an existing Application Insights client.

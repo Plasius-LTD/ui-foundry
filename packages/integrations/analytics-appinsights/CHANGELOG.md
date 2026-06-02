@@ -9,11 +9,10 @@ The format is based on **[Keep a Changelog](https://keepachangelog.com/en/1.1.0/
 ## [Unreleased]
 
 - **Added**
-  - Added package-local adapter tests covering track, page, identify, group, and flush behavior.
+  - (placeholder)
 
 - **Changed**
   - Align package metadata for dual ESM/CJS outputs with consistent `main`/`module` fields.
-  - Switched App Insights adapter type imports to the public `@plasius/ui-foundry-core` entrypoint.
 
 - **Fixed**
   - (placeholder)

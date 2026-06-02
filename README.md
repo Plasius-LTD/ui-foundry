@@ -34,30 +34,6 @@ npm install @plasius/ui-foundry
 
 ---
 
-## QA Contract
-
-ADR-0009 is enforced at a practical package baseline for the currently shipped surfaces:
-
-- `packages/core`
-- `packages/components`
-- `packages/integrations/analytics-appinsights`
-
-The repository QA gate now requires:
-
-- package-local Vitest coverage for exported behavior;
-- automated accessibility checks for interactive component surfaces;
-- root CI execution of lint, build, package metadata validation, and combined coverage reporting.
-
-Useful commands:
-
-```bash
-npm test
-npm run test:coverage
-npm run pack:check
-```
-
----
-
 ## Contributing
 
 We welcome contributions! Please see [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.

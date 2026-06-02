@@ -22,8 +22,7 @@
   },
   "packageManager": "npm@11.6.0",
   "workspaces": [
-    "packages/*",
-    "packages/integrations/*"
+    "packages/*"
   ],
   "homepage": "https://github.com/Plasius-LTD/ui-foundry#readme",
   "bugs": {
@@ -37,24 +36,20 @@
   "author": "Plasius LTD",
   "type": "module",
   "scripts": {
-    "build": "npm run -w @plasius/ui-foundry-core build && npm run -w @plasius/ui-foundry-components build && npm run -w @plasius/ui-foundry-analytics-appinsights build",
-    "pack:check": "npm run -w @plasius/ui-foundry-core pack:check && npm run -w @plasius/ui-foundry-components pack:check && npm run -w @plasius/ui-foundry-analytics-appinsights pack:check",
-    "test": "npm run -w @plasius/ui-foundry-core test && npm run -w @plasius/ui-foundry-components test && npm run -w @plasius/ui-foundry-analytics-appinsights test",
-    "test:coverage": "vitest run --coverage.enabled true",
-    "lint": "ESLINT_USE_FLAT_CONFIG=false eslint .",
+    "build": "npm run -ws --if-present build",
+    "test": "vitest run",
+    "lint": "eslint .",
     "format": "prettier -w .",
     "release": "echo \"Use GitHub Actions workflow 'Release npm Package' to publish.\" && exit 1",
     "docs": "npm run -w @plasius/ui-foundry-docs dev"
   },
   "devDependencies": {
     "@changesets/cli": "^2.29.7",
-    "axe-core": "^4.11.1",
     "@testing-library/jest-dom": "^6.8.0",
     "@testing-library/react": "^16.3.0",
     "@types/node": "^24.5.1",
     "@typescript-eslint/eslint-plugin": "^8.44.0",
     "@typescript-eslint/parser": "^8.44.0",
-    "@vitest/coverage-v8": "^4.0.18",
     "eslint": "^9.35.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-react": "^7.37.5",
@@ -64,7 +59,7 @@
     "tsup": "^8.5.0",
     "tsx": "^4.20.5",
     "typescript": "^5.9.2",
-    "vitest": "^4.0.18"
+    "vitest": "^3.2.4"
   },
   "overrides": {
     "minimatch": "^10.2.1",

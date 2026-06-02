@@ -47,7 +47,7 @@
   },
   "scripts": {
     "build": "tsup src/index.ts --dts --format cjs,esm --clean",
-    "test": "vitest run src --environment jsdom",
+    "test": "vitest run --environment jsdom",
     "pack:check": "node scripts/verify-public-package.cjs",
     "prepublishOnly": "npm run build && npm run pack:check"
   },

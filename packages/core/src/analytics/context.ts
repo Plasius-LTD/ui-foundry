@@ -1,3 +1,4 @@
+// @ts-ignore - react type declarations may not be installed in minimal checkouts.
 import React, { createContext, useContext, useMemo } from "react";
 import type { AnalyticsAdapter, AnalyticsEvent } from "./types.js";
 

@@ -9,11 +9,13 @@ The format is based on **[Keep a Changelog](https://keepachangelog.com/en/1.1.0/
 ## [Unreleased]
 
 - **Added**
-  - Enforced ADR-0009 package QA gates for core, components, and App Insights adapter tests with combined coverage in CI.
+
+  - (placeholder)
 
 - **Changed**
+
   - Ensure UI Foundry packages publish dual ESM/CJS outputs with consistent `main`/`module` metadata.
-  - Added repository-level QA commands for package validation, accessibility coverage, and combined LCOV reporting.
+  - (placeholder)
 
 - **Fixed**
 
