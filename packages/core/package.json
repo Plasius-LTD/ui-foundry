@@ -38,6 +38,8 @@
     "@plasius/translations": "^1.0.8",
     "@testing-library/jest-dom": "^6",
     "@testing-library/react": "^16",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
     "jsdom": "^25",
     "react": "^19",
     "react-dom": "^19",
