@@ -160,4 +160,7 @@ jobs:
           fi
 
           echo "Publishing from $PACKAGE_DIR with tag '$TAG'"
-          npm --prefix "$PACKAGE_DIR" publish "${PUBLISH_ARGS[@]}"
+          (
+            cd "$PACKAGE_DIR"
+            npm publish "${PUBLISH_ARGS[@]}"
+          )
