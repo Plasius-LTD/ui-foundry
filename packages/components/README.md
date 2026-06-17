@@ -25,6 +25,21 @@ npm install @plasius/ui-foundry-components
 import { /* ... */ } from "@plasius/ui-foundry-components";
 ```
 
+## Player System primitives
+
+The components package now exports reusable Player System primitives suitable for
+focused 3D panes and flat validation surfaces:
+
+- `FoundryPane`
+- `FoundryLedger`
+- `FoundryLog`
+- `FoundryMissionSummary`
+- `FoundryMccPanel`
+
+These primitives keep accessibility labels explicit and use responsive
+single-column layouts so hosts can embed them in world-space shells or browser
+demo viewers without rewriting the content model.
+
 ---
 
 ## Build Outputs
@@ -34,7 +49,8 @@ import { /* ... */ } from "@plasius/ui-foundry-components";
 ## Testing
 
 `npm test -w @plasius/ui-foundry-components` runs the package-local rendering,
-interaction, and accessibility checks for `FoundryStack` and `FoundryButton`.
+interaction, and accessibility checks for `FoundryStack`, `FoundryButton`, and
+the Player System pane primitives.
 
 ---
 
