@@ -10,6 +10,7 @@ The format is based on **[Keep a Changelog](https://keepachangelog.com/en/1.1.0/
 
 - **Added**
   - Added package-local rendering, interaction, and accessibility coverage for `FoundryStack` and `FoundryButton`.
+  - Added `FoundryPane`, `FoundryLedger`, `FoundryLog`, `FoundryMissionSummary`, and `FoundryMccPanel` for Player System-focused interface surfaces.
 
 - **Changed**
   - Align ESM entry points to `dist/index.js` alongside CJS output in `dist/index.cjs`.
