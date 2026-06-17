@@ -69,6 +69,7 @@ describe("@plasius/ui-foundry-components player-system primitives", () => {
     );
 
     expect(screen.getByText("PP")).toBeInTheDocument();
+    expect(screen.getByText("Warning")).toBeInTheDocument();
     expect(screen.getByText("Threat detected")).toBeInTheDocument();
     expect(screen.getByText("Reach the training grounds")).toBeInTheDocument();
     expect(screen.getByText("Maintain a measured pace to keep the shell combat-safe.")).toBeInTheDocument();
@@ -156,11 +157,32 @@ describe("@plasius/ui-foundry-components player-system primitives", () => {
       "Minimal content"
     );
     expect(screen.getByText("High")).toBeInTheDocument();
+    expect(screen.getByText("Info")).toBeInTheDocument();
     expect(screen.getByText("now")).toBeInTheDocument();
+    expect(screen.getByText("Danger")).toBeInTheDocument();
     expect(screen.getByText("Bridge collapse ahead")).toBeInTheDocument();
     expect(screen.getByText("Wait for the escort")).toBeInTheDocument();
     expect(
       screen.getByText("Hold position until the focus lane stabilizes.")
     ).toBeInTheDocument();
+  });
+
+  it("keeps severity text visible on world-space logs where color alone is insufficient", () => {
+    render(
+      React.createElement(FoundryLog, {
+        title: "World-space alerts",
+        surface: "world-space",
+        entries: [
+          {
+            id: "4",
+            label: "Incoming strike",
+            severity: "danger",
+          },
+        ],
+      })
+    );
+
+    expect(screen.getByText("Danger")).toBeInTheDocument();
+    expect(screen.getByText("Incoming strike")).toBeInTheDocument();
   });
 });

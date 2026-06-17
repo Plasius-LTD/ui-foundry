@@ -119,6 +119,19 @@ function severityColor(entry: FoundryLogEntry) {
   }
 }
 
+function severityLabel(entry: FoundryLogEntry) {
+  switch (entry.severity) {
+    case "info":
+      return "Info";
+    case "warning":
+      return "Warning";
+    case "danger":
+      return "Danger";
+    default:
+      return null;
+  }
+}
+
 export function FoundryPane({
   title,
   description,
@@ -278,6 +291,21 @@ export function FoundryLog({
                 alignItems: "baseline",
               },
             },
+            severityLabel(entry)
+              ? React.createElement(
+                  "span",
+                  {
+                    style: {
+                      color: surface === "world-space" ? "#f7fbff" : severityColor(entry),
+                      fontSize: "0.72rem",
+                      fontWeight: 700,
+                      letterSpacing: "0.08em",
+                      textTransform: "uppercase",
+                    },
+                  },
+                  severityLabel(entry)
+                )
+              : null,
             React.createElement(
               "strong",
               {
