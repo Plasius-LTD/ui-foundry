@@ -135,10 +135,7 @@ jobs:
           HAS_BUILD=$(node -e "const p=require('./$PACKAGE_DIR/package.json'); process.stdout.write(p.scripts && p.scripts.build ? 'true' : 'false')")
 
           if [ "$HAS_BUILD" = "true" ]; then
-            (
-              cd "$PACKAGE_DIR"
-              npm run build
-            )
+            npm run build
           else
             echo "No build script found in $PACKAGE_DIR/package.json; skipping build"
           fi
