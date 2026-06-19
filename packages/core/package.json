@@ -53,8 +53,5 @@
   },
   "publishConfig": {
     "access": "public"
-  },
-  "dependencies": {
-    "vite": "^8.0.13"
   }
 }
