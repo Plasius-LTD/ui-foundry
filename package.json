@@ -23,6 +23,7 @@
   "packageManager": "npm@11.6.0",
   "workspaces": [
     "packages/*",
+    "packages/cli/*",
     "packages/integrations/*"
   ],
   "homepage": "https://github.com/Plasius-LTD/ui-foundry#readme",
@@ -37,10 +38,11 @@
   "author": "Plasius LTD",
   "type": "module",
   "scripts": {
-    "build": "npm run -w @plasius/ui-foundry-core build && npm run -w @plasius/ui-foundry-components build && npm run -w @plasius/ui-foundry-analytics-appinsights build",
-    "pack:check": "npm run -w @plasius/ui-foundry-core pack:check && npm run -w @plasius/ui-foundry-components pack:check && npm run -w @plasius/ui-foundry-analytics-appinsights pack:check",
-    "test": "npm run -w @plasius/ui-foundry-core test && npm run -w @plasius/ui-foundry-components test && npm run -w @plasius/ui-foundry-analytics-appinsights test",
+    "build": "npm run -w @plasius/ui-foundry-core build && npm run -w @plasius/ui-foundry-components build && npm run -w @plasius/ui-foundry-analytics-appinsights build && npm run -w @plasius/ui-foundry-cli build",
+    "pack:check": "npm run -w @plasius/ui-foundry-core pack:check && npm run -w @plasius/ui-foundry-components pack:check && npm run -w @plasius/ui-foundry-analytics-appinsights pack:check && npm run -w @plasius/ui-foundry-cli pack:check",
+    "test": "npm run -w @plasius/ui-foundry-core test && npm run -w @plasius/ui-foundry-components test && npm run -w @plasius/ui-foundry-analytics-appinsights test && npm run -w @plasius/ui-foundry-cli test",
     "test:coverage": "vitest run --coverage.enabled true",
+    "typecheck": "npm run -w @plasius/ui-foundry-core typecheck && npm run -w @plasius/ui-foundry-components typecheck && npm run -w @plasius/ui-foundry-analytics-appinsights typecheck && npm run -w @plasius/ui-foundry-cli typecheck",
     "lint": "ESLINT_USE_FLAT_CONFIG=false eslint .",
     "format": "prettier -w .",
     "release": "echo \"Use GitHub Actions workflow 'Release npm Package' to publish.\" && exit 1",
@@ -52,6 +54,8 @@
     "@testing-library/jest-dom": "^6.8.0",
     "@testing-library/react": "^16.3.0",
     "@types/node": "^24.5.1",
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.2",
     "@typescript-eslint/eslint-plugin": "^8.44.0",
     "@typescript-eslint/parser": "^8.44.0",
     "@vitest/coverage-v8": "^4.0.18",

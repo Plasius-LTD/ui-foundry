@@ -13,6 +13,10 @@
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "sideEffects": false,
+  "files": [
+    "dist",
+    "CHANGELOG.md"
+  ],
   "engines": {
     "node": ">=22"
   },
@@ -23,9 +27,8 @@
   },
   "devDependencies": {
     "@plasius/ui-foundry-core": "^0.1.0",
-    "@testing-library/jest-dom": "^6",
-    "@testing-library/react": "^16",
-    "jsdom": "^25",
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.2",
     "react": "^19",
     "react-dom": "^19",
     "tsup": "^8",
@@ -34,7 +37,8 @@
   },
   "scripts": {
     "build": "tsup src/index.ts --dts --format cjs,esm --clean",
-    "test": "vitest run src --environment jsdom",
+    "test": "vitest run --config vitest.config.ts",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
     "pack:check": "node scripts/verify-public-package.cjs",
     "prepublishOnly": "npm run build && npm run pack:check"
   },

@@ -9,7 +9,6 @@ export default defineConfig({
       "tests/**/*.test.{ts,tsx}",
       "packages/**/src/**/*.test.{ts,tsx}",
     ],
-    passWithNoTests: true,
     coverage: {
       provider: "v8",
       reporter: ["text", "lcov"],
@@ -19,6 +18,7 @@ export default defineConfig({
         "packages/core/src/**/*.tsx",
         "packages/components/src/**/*.ts",
         "packages/components/src/**/*.tsx",
+        "packages/cli/templates/src/**/*.ts",
         "packages/integrations/analytics-appinsights/src/**/*.ts",
       ],
       thresholds: {

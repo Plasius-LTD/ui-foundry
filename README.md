@@ -1,6 +1,5 @@
 # @plasius/ui-foundry
 
-[![npm version](https://img.shields.io/npm/v/@plasius/ui-foundry.svg)](https://www.npmjs.com/package/@plasius/ui-foundry)
 [![Build Status](https://img.shields.io/github/actions/workflow/status/Plasius-LTD/ui-foundry/ci.yml?branch=main&label=build&style=flat)](https://github.com/plasius/translations/actions/workflows/ci.yml)
 [![coverage](https://img.shields.io/codecov/c/github/Plasius-LTD/ui-foundry)](https://codecov.io/gh/Plasius-LTD/ui-foundry)
 [![License](https://img.shields.io/github/license/Plasius-LTD/ui-foundry)](./LICENSE)
@@ -14,14 +13,19 @@ Apache-2.0. ESM + CJS builds. TypeScript types included.
 
 ## Overview
 
-`@plasius/ui-foundry`
+`ui-foundry` is the source repository for the public UI Foundry packages:
+
+- `@plasius/ui-foundry-core`
+- `@plasius/ui-foundry-components`
+- `@plasius/ui-foundry-analytics-appinsights`
+- `@plasius/ui-foundry-cli`
 
 ---
 
 ## Installation
 
 ```bash
-npm install @plasius/ui-foundry
+npm install @plasius/ui-foundry-core @plasius/ui-foundry-components
 ```
 
 ---
@@ -29,7 +33,40 @@ npm install @plasius/ui-foundry
 ## Usage Example
 
 ```tsx
-// Todo: Fill in this example
+import React from "react";
+import {
+  AnalyticsProvider,
+  type AnalyticsAdapter,
+} from "@plasius/ui-foundry-core";
+import {
+  FoundryButton,
+  FoundryStack,
+} from "@plasius/ui-foundry-components";
+
+const analytics: AnalyticsAdapter = {
+  track(event) {
+    console.log(event.name, event.properties);
+  },
+};
+
+export function ExamplePanel() {
+  return (
+    <AnalyticsProvider adapter={analytics}>
+      <FoundryStack gap={16}>
+        <FoundryButton
+          label="Launch runbook"
+          tone="primary"
+          onClick={() =>
+            analytics.track({
+              name: "ui_foundry_launch_runbook_clicked",
+              properties: { surface: "example-panel" },
+            })
+          }
+        />
+      </FoundryStack>
+    </AnalyticsProvider>
+  );
+}
 ```
 
 ---

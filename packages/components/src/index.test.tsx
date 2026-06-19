@@ -1,8 +1,9 @@
 import React from "react";
 import { fireEvent, render, screen } from "@testing-library/react";
+import "@testing-library/jest-dom/vitest";
 import axe from "axe-core";
 import { describe, expect, it, vi } from "vitest";
-import { FoundryButton, FoundryStack } from "./index";
+import { FoundryButton, FoundryStack } from "./index.js";
 
 describe("@plasius/ui-foundry-components", () => {
   it("renders FoundryStack layout props as flex styles", () => {

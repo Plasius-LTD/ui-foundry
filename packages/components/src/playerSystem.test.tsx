@@ -1,5 +1,6 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
+import "@testing-library/jest-dom/vitest";
 import axe from "axe-core";
 import { describe, expect, it } from "vitest";
 import {
@@ -8,7 +9,7 @@ import {
   FoundryMccPanel,
   FoundryMissionSummary,
   FoundryPane,
-} from "./index";
+} from "./index.js";
 
 describe("@plasius/ui-foundry-components player-system primitives", () => {
   it("renders focused pane content with an accessible section label", () => {

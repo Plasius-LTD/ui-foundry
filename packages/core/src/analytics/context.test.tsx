@@ -1,12 +1,12 @@
 import React from "react";
 import { act, renderHook } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
-import { AnalyticsProvider, useAnalytics } from "../index";
-import type { AnalyticsAdapter } from "../index";
+import { AnalyticsProvider, useAnalytics } from "../index.js";
+import type { AnalyticsAdapter } from "../index.js";
 
 function createWrapper(adapter?: AnalyticsAdapter | null) {
   return function Wrapper({ children }: { children: React.ReactNode }) {
-    return React.createElement(AnalyticsProvider, { adapter }, children);
+    return React.createElement(AnalyticsProvider, { adapter, children });
   };
 }
 
