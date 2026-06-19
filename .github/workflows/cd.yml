@@ -117,7 +117,10 @@ jobs:
           HAS_TEST=$(node -e "const p=require('./$PACKAGE_DIR/package.json'); process.stdout.write(p.scripts && p.scripts.test ? 'true' : 'false')")
 
           if [ "$HAS_TEST" = "true" ]; then
-            npm --prefix "$PACKAGE_DIR" run test
+            (
+              cd "$PACKAGE_DIR"
+              npm run test
+            )
           else
             echo "No test script found in $PACKAGE_DIR/package.json; skipping tests"
           fi
@@ -132,7 +135,10 @@ jobs:
           HAS_BUILD=$(node -e "const p=require('./$PACKAGE_DIR/package.json'); process.stdout.write(p.scripts && p.scripts.build ? 'true' : 'false')")
 
           if [ "$HAS_BUILD" = "true" ]; then
-            npm --prefix "$PACKAGE_DIR" run build
+            (
+              cd "$PACKAGE_DIR"
+              npm run build
+            )
           else
             echo "No build script found in $PACKAGE_DIR/package.json; skipping build"
           fi
@@ -160,4 +166,7 @@ jobs:
           fi
 
           echo "Publishing from $PACKAGE_DIR with tag '$TAG'"
-          npm --prefix "$PACKAGE_DIR" publish "${PUBLISH_ARGS[@]}"
+          (
+            cd "$PACKAGE_DIR"
+            npm publish "${PUBLISH_ARGS[@]}"
+          )
