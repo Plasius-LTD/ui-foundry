@@ -2,6 +2,15 @@
   "name": "@plasius/ui-foundry-cli",
   "version": "0.1.0",
   "type": "module",
+  "homepage": "https://github.com/Plasius-LTD/ui-foundry#readme",
+  "bugs": {
+    "url": "https://github.com/Plasius-LTD/ui-foundry/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Plasius-LTD/ui-foundry.git",
+    "directory": "packages/cli/templates"
+  },
   "bin": {
     "ui-foundry": "dist/bin.cjs"
   },
