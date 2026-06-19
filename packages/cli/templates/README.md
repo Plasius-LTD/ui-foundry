@@ -23,6 +23,7 @@ npm install -g @plasius/ui-foundry-cli
 
 ```bash
 ui-foundry --help
+ui-foundry list-templates
 ```
 
 ---

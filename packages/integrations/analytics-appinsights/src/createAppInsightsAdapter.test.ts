@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
-import { createAppInsightsAdapter } from "./index";
-import type { AppInsightsClient } from "./index";
+import { createAppInsightsAdapter } from "./index.js";
+import type { AppInsightsClient } from "./index.js";
 
 function createClient(overrides: Partial<AppInsightsClient> = {}): AppInsightsClient {
   return {

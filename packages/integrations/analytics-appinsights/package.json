@@ -13,6 +13,10 @@
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "sideEffects": false,
+  "files": [
+    "dist",
+    "CHANGELOG.md"
+  ],
   "engines": {
     "node": ">=22"
   },
@@ -27,7 +31,8 @@
   },
   "scripts": {
     "build": "tsup src/index.ts --dts --format cjs,esm --clean",
-    "test": "vitest run src",
+    "test": "vitest run --config vitest.config.ts",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
     "pack:check": "node scripts/verify-public-package.cjs",
     "prepublishOnly": "npm run build && npm run pack:check"
   },

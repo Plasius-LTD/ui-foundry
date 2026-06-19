@@ -7,7 +7,8 @@
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
-    "dist"
+    "dist",
+    "CHANGELOG.md"
   ],
   "exports": {
     ".": {
@@ -36,9 +37,8 @@
     "@plasius/react-state": "^1.2.1",
     "@plasius/schema": "^1.2.6",
     "@plasius/translations": "^1.0.8",
-    "@testing-library/jest-dom": "^6",
-    "@testing-library/react": "^16",
-    "jsdom": "^25",
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.2",
     "react": "^19",
     "react-dom": "^19",
     "tsup": "^8",
@@ -47,7 +47,8 @@
   },
   "scripts": {
     "build": "tsup src/index.ts --dts --format cjs,esm --clean",
-    "test": "vitest run src --environment jsdom",
+    "test": "vitest run --config vitest.config.ts",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
     "pack:check": "node scripts/verify-public-package.cjs",
     "prepublishOnly": "npm run build && npm run pack:check"
   },

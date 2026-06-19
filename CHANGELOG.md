@@ -16,8 +16,9 @@ The format is based on **[Keep a Changelog](https://keepachangelog.com/en/1.1.0/
   - Added repository-level QA commands for package validation, accessibility coverage, and combined LCOV reporting.
 
 - **Fixed**
-
-  - (placeholder)
+  - Added fail-closed package validation for published tarballs, including dist artifact checks and source/test exclusion.
+  - Restored workspace coverage for the CLI package and replaced the placeholder CLI publish metadata with a tested entrypoint.
+  - Corrected public documentation to reference the published packages instead of the private repository root package.
 
 - **Security**
   - Updated Vite/PostCSS/Picomatch dependency resolution to patched versions for the production audit baseline.
