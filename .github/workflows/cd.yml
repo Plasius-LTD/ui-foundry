@@ -4,10 +4,34 @@ on:
   workflow_dispatch:
     inputs:
       package_directory:
-        description: "Path to package directory (example: packages/core)"
+        description: "Path to package directory"
         required: true
         type: string
         default: "packages/core"
+      changelog_path:
+        description: "Path to the package changelog"
+        required: true
+        type: string
+        default: "packages/core/CHANGELOG.md"
+      tag_prefix:
+        description: "Release tag prefix for this package"
+        required: true
+        type: string
+        default: "ui-foundry-core-v"
+      bump:
+        description: "Version bump type"
+        required: true
+        type: choice
+        default: patch
+        options:
+          - patch
+          - minor
+          - major
+          - none
+      preid:
+        description: "Pre-release id (e.g. beta, rc). Leave blank for stable"
+        required: false
+        type: string
       npm_tag:
         description: "npm dist-tag"
         required: false
@@ -25,23 +49,37 @@ on:
         default: true
 
 permissions:
-  contents: read
+  actions: read
+  attestations: write
+  contents: write
   id-token: write
+  pull-requests: write
 
 concurrency:
-  group: npm-release-${{ github.ref }}
+  group: npm-release-${{ github.ref }}-${{ inputs.package_directory }}
   cancel-in-progress: false
 
 jobs:
+  prepare_release:
+    uses: Plasius-LTD/plasius-ltd-site/.github/workflows/release-prepare.yml@main
+    with:
+      bump: ${{ inputs.bump }}
+      preid: ${{ inputs.preid }}
+      package_directory: ${{ inputs.package_directory }}
+      changelog_path: ${{ inputs.changelog_path }}
+      tag_prefix: ${{ inputs.tag_prefix }}
+    secrets: inherit
+
   publish:
     name: Publish package to npm
+    needs: prepare_release
     runs-on: ubuntu-latest
     environment: production
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
+          ref: main
           fetch-depth: 0
 
       - name: Setup Node
@@ -51,119 +89,112 @@ jobs:
           registry-url: "https://registry.npmjs.org"
           cache: "npm"
 
+      - name: Use prepared release metadata
+        id: release
+        run: |
+          set -euo pipefail
+
+          PUBLISHED="${{ needs.prepare_release.outputs.published }}"
+          SHOULD_PUBLISH="true"
+          SKIP_REASON=""
+          if [ "${PUBLISHED}" = "true" ]; then
+            SHOULD_PUBLISH="false"
+            SKIP_REASON="Package version ${{ needs.prepare_release.outputs.version }} is already published; nothing to release."
+          fi
+
+          {
+            echo "package_name=${{ needs.prepare_release.outputs.name }}"
+            echo "release_version=${{ needs.prepare_release.outputs.version }}"
+            echo "release_tag=${{ needs.prepare_release.outputs.tag }}"
+            echo "flags=${{ needs.prepare_release.outputs.flags }}"
+            echo "should_publish=${SHOULD_PUBLISH}"
+            echo "skip_reason=${SKIP_REASON}"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Skip when package version is already published
+        if: steps.release.outputs.should_publish != 'true'
+        run: echo "${{ steps.release.outputs.skip_reason }}"
+
       - name: Install repo dependencies
+        if: steps.release.outputs.should_publish == 'true'
         run: npm ci --no-fund --no-audit --legacy-peer-deps
 
-      - name: Validate package metadata
-        id: pkg
-        shell: bash
-        run: |
-          set -euo pipefail
-
-          PACKAGE_DIR="${{ inputs.package_directory }}"
-          PACKAGE_JSON="$PACKAGE_DIR/package.json"
-
-          if [ ! -f "$PACKAGE_JSON" ]; then
-            echo "Package manifest not found: $PACKAGE_JSON"
-            exit 1
-          fi
-
-          PKG_NAME=$(node -e "const p=require('./$PACKAGE_JSON'); process.stdout.write(p.name || '')")
-          PKG_VERSION=$(node -e "const p=require('./$PACKAGE_JSON'); process.stdout.write(p.version || '')")
-          PKG_PRIVATE=$(node -e "const p=require('./$PACKAGE_JSON'); process.stdout.write(String(Boolean(p.private)))")
-          PKG_ACCESS=$(node -e "const p=require('./$PACKAGE_JSON'); process.stdout.write((p.publishConfig && p.publishConfig.access) || '')")
-
-          if [ -z "$PKG_NAME" ] || [ -z "$PKG_VERSION" ]; then
-            echo "Package name/version are required in $PACKAGE_JSON"
-            exit 1
-          fi
-
-          if [ "$PKG_PRIVATE" = "true" ]; then
-            echo "Cannot publish private package: $PKG_NAME"
-            exit 1
-          fi
-
-          if [ -z "$PKG_ACCESS" ] && [[ "$PKG_NAME" == @*/* ]]; then
-            PKG_ACCESS="public"
-          fi
-
-          echo "package_dir=$PACKAGE_DIR" >> "$GITHUB_OUTPUT"
-          echo "package_name=$PKG_NAME" >> "$GITHUB_OUTPUT"
-          echo "package_version=$PKG_VERSION" >> "$GITHUB_OUTPUT"
-          echo "package_access=$PKG_ACCESS" >> "$GITHUB_OUTPUT"
-
-          echo "Preparing release for $PKG_NAME@$PKG_VERSION from $PACKAGE_DIR"
-
-      - name: Ensure version is not already published
-        shell: bash
-        run: |
-          set -euo pipefail
-
-          PKG_NAME="${{ steps.pkg.outputs.package_name }}"
-          PKG_VERSION="${{ steps.pkg.outputs.package_version }}"
-
-          if npm view "$PKG_NAME@$PKG_VERSION" version --registry https://registry.npmjs.org >/dev/null 2>&1; then
-            echo "Version already exists on npm: $PKG_NAME@$PKG_VERSION"
-            exit 1
-          fi
-
       - name: Run package tests
-        if: ${{ inputs.run_tests }}
+        if: steps.release.outputs.should_publish == 'true' && inputs.run_tests
         shell: bash
         run: |
           set -euo pipefail
-
-          PACKAGE_DIR="${{ steps.pkg.outputs.package_dir }}"
-          HAS_TEST=$(node -e "const p=require('./$PACKAGE_DIR/package.json'); process.stdout.write(p.scripts && p.scripts.test ? 'true' : 'false')")
-
-          if [ "$HAS_TEST" = "true" ]; then
-            (
-              cd "$PACKAGE_DIR"
-              npm run test
-            )
+          PACKAGE_DIR="${{ inputs.package_directory }}"
+          HAS_TEST=$(node -e "const p=require('./${PACKAGE_DIR}/package.json'); process.stdout.write(p.scripts && p.scripts.test ? 'true' : 'false')")
+          if [ "${HAS_TEST}" = "true" ]; then
+            npm --prefix "${PACKAGE_DIR}" run test
           else
-            echo "No test script found in $PACKAGE_DIR/package.json; skipping tests"
+            echo "No test script found in ${PACKAGE_DIR}/package.json; skipping tests"
           fi
 
       - name: Run package build
-        if: ${{ inputs.run_build }}
+        if: steps.release.outputs.should_publish == 'true' && inputs.run_build
         shell: bash
         run: |
           set -euo pipefail
-
-          PACKAGE_DIR="${{ steps.pkg.outputs.package_dir }}"
-          HAS_BUILD=$(node -e "const p=require('./$PACKAGE_DIR/package.json'); process.stdout.write(p.scripts && p.scripts.build ? 'true' : 'false')")
-
-          if [ "$HAS_BUILD" = "true" ]; then
-            npm run build
+          PACKAGE_DIR="${{ inputs.package_directory }}"
+          HAS_BUILD=$(node -e "const p=require('./${PACKAGE_DIR}/package.json'); process.stdout.write(p.scripts && p.scripts.build ? 'true' : 'false')")
+          if [ "${HAS_BUILD}" = "true" ]; then
+            npm --prefix "${PACKAGE_DIR}" run build
           else
-            echo "No build script found in $PACKAGE_DIR/package.json; skipping build"
+            echo "No build script found in ${PACKAGE_DIR}/package.json; skipping build"
           fi
 
+      - name: Create release tag from main
+        if: steps.release.outputs.should_publish == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ steps.release.outputs.release_tag }}
+        run: |
+          set -euo pipefail
+          git fetch origin main --tags
+          git checkout -B main origin/main
+
+          if git ls-remote --exit-code --tags origin "refs/tags/${TAG}" >/dev/null 2>&1; then
+            if gh release view "${TAG}" >/dev/null 2>&1; then
+              IS_DRAFT="$(gh release view "${TAG}" --json isDraft --jq '.isDraft')"
+              if [ "${IS_DRAFT}" != "true" ]; then
+                echo "Published release ${TAG} already exists; reusing the existing tag."
+                exit 0
+              fi
+            fi
+            git push origin ":refs/tags/${TAG}"
+          fi
+
+          git tag "${TAG}"
+          git push origin "${TAG}"
+
+      - name: Create GitHub Release draft
+        if: steps.release.outputs.should_publish == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ steps.release.outputs.release_tag }}
+        run: gh release create "${TAG}" --title "Release ${TAG}" --generate-notes --verify-tag --draft
+
       - name: Publish package
+        if: steps.release.outputs.should_publish == 'true'
         shell: bash
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          FLAGS: ${{ steps.release.outputs.flags }}
         run: |
           set -euo pipefail
-
-          PACKAGE_DIR="${{ steps.pkg.outputs.package_dir }}"
-          ACCESS="${{ steps.pkg.outputs.package_access }}"
-          TAG="${{ inputs.npm_tag }}"
-
-          if [ -z "$NODE_AUTH_TOKEN" ]; then
-            echo "NPM_TOKEN is required"
+          PACKAGE_DIR="${{ inputs.package_directory }}"
+          if [ -z "${NODE_AUTH_TOKEN:-}" ]; then
+            echo "NPM_TOKEN is required" >&2
             exit 1
           fi
 
-          PUBLISH_ARGS=("--provenance" "--tag" "$TAG" "--registry" "https://registry.npmjs.org")
+          npm --prefix "${PACKAGE_DIR}" publish ${FLAGS} --provenance --tag "${{ inputs.npm_tag }}" --registry https://registry.npmjs.org
 
-          if [ "$ACCESS" = "public" ]; then
-            PUBLISH_ARGS=("--access" "public" "${PUBLISH_ARGS[@]}")
-          fi
-
-          echo "Publishing from $PACKAGE_DIR with tag '$TAG'"
-          (
-            cd "$PACKAGE_DIR"
-            npm publish "${PUBLISH_ARGS[@]}"
-          )
+      - name: Publish GitHub Release
+        if: steps.release.outputs.should_publish == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ steps.release.outputs.release_tag }}
+        run: gh release edit "${TAG}" --draft=false --latest
