@@ -142,7 +142,7 @@ jobs:
 
       - name: Generate SBOM (CycloneDX)
         if: steps.release.outputs.should_finalize_release == 'true'
-        run: npm --prefix "${{ inputs.package_directory }}" sbom --sbom-format=cyclonedx --sbom-type=library --omit dev > sbom.cdx.json
+        run: npm sbom --workspace "${{ inputs.package_directory }}" --sbom-format=cyclonedx --sbom-type=library --omit dev > sbom.cdx.json
 
       - name: Attest SBOM
         if: steps.release.outputs.should_finalize_release == 'true' && hashFiles('sbom.cdx.json') != ''
