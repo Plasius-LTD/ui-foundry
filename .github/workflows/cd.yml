@@ -60,6 +60,7 @@ jobs:
     with:
       bump: ${{ inputs.bump }}
       preid: ${{ inputs.preid }}
+      release_prep_app_client_id: ${{ vars.RELEASE_PREP_APP_CLIENT_ID }}
       package_directory: ${{ inputs.package_directory }}
       changelog_path: ${{ inputs.changelog_path }}
       tag_prefix: ${{ inputs.tag_prefix }}
