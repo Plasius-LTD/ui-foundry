@@ -20,6 +20,20 @@ The format is based on **[Keep a Changelog](https://keepachangelog.com/en/1.1.0/
 - **Security**
   - (placeholder)
 
+## [0.1.2] - 2026-06-22
+
+- **Added**
+  - (placeholder)
+
+- **Changed**
+  - (placeholder)
+
+- **Fixed**
+  - (placeholder)
+
+- **Security**
+  - (placeholder)
+
 ## [0.1.1] - 2026-06-22
 
 - **Added**
@@ -49,5 +63,6 @@ The format is based on **[Keep a Changelog](https://keepachangelog.com/en/1.1.0/
 
 ---
 
-[Unreleased]: https://github.com/Plasius-LTD/ui-foundry/compare/ui-foundry-core-v0.1.1...HEAD
+[Unreleased]: https://github.com/Plasius-LTD/ui-foundry/compare/ui-foundry-core-v0.1.2...HEAD
 [0.1.1]: https://github.com/Plasius-LTD/ui-foundry/releases/tag/ui-foundry-core-v0.1.1
+[0.1.2]: https://github.com/Plasius-LTD/ui-foundry/releases/tag/ui-foundry-core-v0.1.2
