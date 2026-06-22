@@ -239,7 +239,7 @@ jobs:
             exit 0
           fi
 
-          npm publish "${PACKAGE_DIR}" ${FLAGS} --provenance --registry https://registry.npmjs.org
+          npm publish "./${PACKAGE_DIR}" ${FLAGS} --provenance --registry https://registry.npmjs.org
 
       - name: Publish GitHub Release
         if: steps.release.outputs.should_finalize_release == 'true'
