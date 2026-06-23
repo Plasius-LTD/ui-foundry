@@ -1,6 +1,6 @@
 {
   "name": "@plasius/ui-foundry-core",
-  "version": "0.1.2",
+  "version": "0.1.0",
   "type": "module",
   "sideEffects": false,
   "homepage": "https://github.com/Plasius-LTD/ui-foundry#readme",
@@ -28,7 +28,7 @@
     "./package.json": "./package.json"
   },
   "engines": {
-    "node": ">=22"
+    "node": ">=24"
   },
   "peerDependencies": {
     "@plasius/react-state": "^1.2.1",
