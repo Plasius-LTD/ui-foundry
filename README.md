@@ -24,6 +24,8 @@ Apache-2.0. ESM + CJS builds. TypeScript types included.
 
 ## Installation
 
+Requires Node.js 24 or newer.
+
 ```bash
 npm install @plasius/ui-foundry-core @plasius/ui-foundry-components
 ```

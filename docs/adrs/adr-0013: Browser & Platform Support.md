@@ -22,7 +22,7 @@ We will define and enforce a **modern baseline for browser and platform support*
   - Android Chrome (latest 2 major releases).
 - **Not supported**: Internet Explorer (all versions). Legacy browsers requiring ES5-only builds are out of scope.
 - **JavaScript/TypeScript target**: `ES2022` as build output baseline; consumers expected to transpile further if needed.
-- **SSR environments**: Must run safely in Node.js 18+ and 20+ LTS, with no reliance on `window`/`document` at import time.
+- **SSR environments**: Must run safely in Node.js 24+ in supported SSR runtimes, with no reliance on `window`/`document` at import time.
 - **Rendering environments**: Support for React 18+ (including concurrent features). React 19 support will be tracked and validated as it stabilises.
 - **Testing environments**: Ensure tests run in JSDOM and Playwright across supported browsers.
 

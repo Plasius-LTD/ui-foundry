@@ -18,7 +18,7 @@
     "ui-foundry"
   ],
   "engines": {
-    "node": ">=22"
+    "node": ">=24"
   },
   "packageManager": "npm@11.6.0",
   "workspaces": [

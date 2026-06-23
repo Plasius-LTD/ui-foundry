@@ -14,6 +14,7 @@ The format is based on **[Keep a Changelog](https://keepachangelog.com/en/1.1.0/
 - **Changed**
   - Ensure UI Foundry packages publish dual ESM/CJS outputs with consistent `main`/`module` metadata.
   - Added repository-level QA commands for package validation, accessibility coverage, and combined LCOV reporting.
+  - Raised the minimum supported Node.js runtime for the workspace and published packages to Node.js 24.
 
 - **Fixed**
   - Added fail-closed package validation for published tarballs, including dist artifact checks and source/test exclusion.

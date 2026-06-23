@@ -27,7 +27,7 @@
     "CHANGELOG.md"
   ],
   "engines": {
-    "node": ">=22"
+    "node": ">=24"
   },
   "peerDependencies": {
     "@plasius/ui-foundry-core": "^0.1.0",
