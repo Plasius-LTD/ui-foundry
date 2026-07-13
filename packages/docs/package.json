@@ -12,6 +12,6 @@
     "@plasius/ui-foundry-components": "^0.1.0",
     "react": "^19",
     "react-dom": "^19",
-    "vite": "^8.0.13"
+    "vite": "^8.1.4"
   }
 }
