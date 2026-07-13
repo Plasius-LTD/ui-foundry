@@ -13,6 +13,20 @@ The format is based on **[Keep a Changelog](https://keepachangelog.com/en/1.1.0/
 
 - **Changed**
   - (placeholder)
+
+- **Fixed**
+  - (placeholder)
+
+- **Security**
+  - (placeholder)
+
+## [0.1.3] - 2026-07-13
+
+- **Added**
+  - (placeholder)
+
+- **Changed**
+  - (placeholder)
   - Consume the RFC-remediated `@plasius/schema` and `@plasius/translations` releases (task #26).
 
 - **Fixed**
@@ -64,6 +78,7 @@ The format is based on **[Keep a Changelog](https://keepachangelog.com/en/1.1.0/
 
 ---
 
-[Unreleased]: https://github.com/Plasius-LTD/ui-foundry/compare/ui-foundry-core-v0.1.2...HEAD
+[Unreleased]: https://github.com/Plasius-LTD/ui-foundry/compare/ui-foundry-core-v0.1.3...HEAD
 [0.1.1]: https://github.com/Plasius-LTD/ui-foundry/releases/tag/ui-foundry-core-v0.1.1
 [0.1.2]: https://github.com/Plasius-LTD/ui-foundry/releases/tag/ui-foundry-core-v0.1.2
+[0.1.3]: https://github.com/Plasius-LTD/ui-foundry/releases/tag/ui-foundry-core-v0.1.3
