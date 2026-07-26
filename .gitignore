@@ -7,3 +7,5 @@ packages/*/*/.npm-cache-packcheck/
 dist/
 coverage/
 *.log
+
+/legal/CLA-REGISTRY.csv
