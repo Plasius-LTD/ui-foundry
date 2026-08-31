@@ -43,16 +43,16 @@
     }
   },
   "devDependencies": {
-    "@plasius/react-state": "^1.2.1",
-    "@plasius/schema": "^1.2.18",
+    "@plasius/react-state": "^1.2.17",
+    "@plasius/schema": "^1.4.3",
     "@plasius/translations": "^1.0.23",
-    "@types/react": "^19.2.2",
-    "@types/react-dom": "^19.2.2",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.5",
     "react": "^19",
     "react-dom": "^19",
     "tsup": "^8",
-    "typescript": "^5.6",
-    "vitest": "^4.1.10"
+    "typescript": "^5.9",
+    "vitest": "^4.1.11"
   },
   "scripts": {
     "build": "tsup src/index.ts --dts --format cjs,esm --clean",
