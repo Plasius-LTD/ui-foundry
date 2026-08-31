@@ -1,6 +1,6 @@
 # @plasius/ui-foundry
 
-[![Build Status](https://img.shields.io/github/actions/workflow/status/Plasius-LTD/ui-foundry/ci.yml?branch=main&label=build&style=flat)](https://github.com/plasius/translations/actions/workflows/ci.yml)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/Plasius-LTD/ui-foundry/ci.yml?branch=main&label=build&style=flat)](https://github.com/Plasius-LTD/ui-foundry/actions/workflows/ci.yml)
 [![coverage](https://img.shields.io/codecov/c/github/Plasius-LTD/ui-foundry)](https://codecov.io/gh/Plasius-LTD/ui-foundry)
 [![License](https://img.shields.io/github/license/Plasius-LTD/ui-foundry)](./LICENSE)
 [![Code of Conduct](https://img.shields.io/badge/code%20of%20conduct-yes-blue.svg)](./CODE_OF_CONDUCT.md)
@@ -114,10 +114,10 @@ This project is licensed under the terms of the [Apache 2.0 license](./LICENSE).
 ## Release integrity
 
 CI keeps the administrative contributor registry outside Git and npm package
-artifacts using exact, case-normalised path checks. CI runs on approved
-self-hosted runners for same-repository pull requests and `main`; fork PR code
-is denied. Publication uses the GitHub-hosted `production` job with Node 24 and
-npm 11.5.1 or newer. It is token-free and proceeds only while the prepared SHA
+artifacts using exact, case-normalised path checks. Reviewed CI runs on explicit
+GitHub-hosted runners with package-manager caching disabled; fork PR code is
+denied. Publication uses the GitHub-hosted `production` job with Node 24 and
+pinned npm 11.6.2. It is token-free and proceeds only while the prepared SHA
 is the exact `main` head after successful push-triggered CI. Do not dispatch CD
 until the npm trusted-publisher binding is verified.
 <!-- END PLASIUS RELEASE INTEGRITY -->

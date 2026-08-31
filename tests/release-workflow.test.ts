@@ -48,10 +48,13 @@ describe("package release trust boundary", () => {
     expect(publishJob).toContain("Revalidate exact main immediately before npm publication");
   });
 
-  it("keeps same-repository pull-request CI on explicit trusted runners", () => {
+  it("keeps same-repository pull-request CI on explicit hosted runners", () => {
+    expect(ciWorkflow).toContain("workflow_dispatch:");
     expect(ciWorkflow).toContain("pull_request:");
-    expect(ciWorkflow).toContain("runs-on: [self-hosted, Linux, X64]");
+    expect(ciWorkflow).toContain("runs-on: ubuntu-latest");
+    expect(ciWorkflow).toContain("package-manager-cache: false");
     expect(ciWorkflow).toContain("github.event.pull_request.head.repo.full_name == github.repository");
+    expect(ciWorkflow).not.toContain("self-hosted");
     expect(ciWorkflow).not.toContain("pull_request_target");
     expect(ciWorkflow).not.toContain("fromJSON(vars.");
   });

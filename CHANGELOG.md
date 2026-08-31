@@ -19,6 +19,7 @@ The format is based on **[Keep a Changelog](https://keepachangelog.com/en/1.1.0/
   - Consume the RFC-remediated schema and translation releases and refresh patched Vitest/Vite tooling (task #26).
 
 - **Fixed**
+  - Moved reviewed CI to explicit GitHub-hosted runners with package-manager caching disabled and added exact-branch manual validation.
   - Made the root typecheck build the core workspace declarations before checking dependent integrations from a clean checkout.
   - Added fail-closed package validation for published tarballs, including dist artifact checks and source/test exclusion.
   - Restored workspace coverage for the CLI package and replaced the placeholder CLI publish metadata with a tested entrypoint.
@@ -26,6 +27,7 @@ The format is based on **[Keep a Changelog](https://keepachangelog.com/en/1.1.0/
 
 - **Security**
   - Removed the npm write-token path, added a fail-closed npm 11.5.1-or-newer OIDC guard, and denied fork PR code access to self-hosted CI.
+  - Pinned patched transitive npm dependencies to clear the current audit baseline.
   - Added fail-closed source and npm-package admission for the administrative contributor registry and pinned the CI/CD runtime to Node.js 24.18.0 LTS.
   - Updated Vite/PostCSS/Picomatch dependency resolution to patched versions for the production audit baseline.
 

@@ -1,5 +1,6 @@
 name: CI
 on:
+  workflow_dispatch:
   pull_request:
     branches: [main]
   push:
@@ -10,34 +11,44 @@ permissions:
 jobs:
   build-test:
     if: ${{ github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository }}
-    runs-on: [self-hosted, Linux, X64]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v6
         with:
           node-version-file: ".nvmrc"
-          cache: "npm"
+          package-manager-cache: false
       - run: npm ci
       - run: npm run lint
       - run: npm run build
       - run: npm run pack:check
       - run: npm run test:coverage
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v7
+        with:
+          files: ./coverage/lcov.info
+          use_oidc: true
+          fail_ci_if_error: false
 
   # BEGIN PLASIUS PUBLIC ARTIFACT INTEGRITY JOB
   public_artifact_integrity:
     name: Public artifact integrity
     if: ${{ github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository }}
-    runs-on: [self-hosted, Linux, X64]
+    runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
       contents: read
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version-file: .nvmrc
+          package-manager-cache: false
       - name: Verify public artifact integrity
         run: node ./scripts/verify-public-artifacts.cjs '--package-dir' 'packages/cli/templates' '--package-dir' 'packages/components' '--package-dir' 'packages/core' '--package-dir' 'packages/integrations/analytics-appinsights'
   # END PLASIUS PUBLIC ARTIFACT INTEGRITY JOB
