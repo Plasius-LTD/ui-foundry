@@ -1,5 +1,8 @@
 name: CI
 on:
+  workflow_dispatch:
+  pull_request:
+    branches: [main]
   push:
     branches: [main]
 permissions:
@@ -7,16 +10,17 @@ permissions:
 
 jobs:
   build-test:
-    runs-on: [self-hosted, Linux, X64]
+    if: ${{ github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository }}
+    runs-on: ubuntu-latest
     permissions:
       contents: read
       id-token: write
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v6
         with:
           node-version-file: ".nvmrc"
-          cache: "npm"
+          package-manager-cache: false
       - run: npm ci
       - run: npm run lint
       - run: npm run build
@@ -33,17 +37,18 @@ jobs:
   public_artifact_integrity:
     name: Public artifact integrity
     if: ${{ github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository }}
-    runs-on: [self-hosted, Linux, X64]
+    runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
       contents: read
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version-file: .nvmrc
+          package-manager-cache: false
       - name: Verify public artifact integrity
         run: node ./scripts/verify-public-artifacts.cjs '--package-dir' 'packages/cli/templates' '--package-dir' 'packages/components' '--package-dir' 'packages/core' '--package-dir' 'packages/integrations/analytics-appinsights'
   # END PLASIUS PUBLIC ARTIFACT INTEGRITY JOB
