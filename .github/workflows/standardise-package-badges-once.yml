@@ -97,34 +97,9 @@ jobs:
             rootPrefix: '../../../',
             includeNpm: true,
           });
-
-          const workflowPath = '.github/workflows/ci.yml';
-          let workflow = fs.readFileSync(workflowPath, 'utf8').replace(/\r\n/g, '\n');
-
-          if (!workflow.includes('codecov/codecov-action@')) {
-            const jobMarker = '  build-test:\n    runs-on: [self-hosted, Linux, X64]\n';
-            if (!workflow.includes(jobMarker)) {
-              throw new Error('Unable to find the build-test job marker');
-            }
-            workflow = workflow.replace(
-              jobMarker,
-              `${jobMarker}    permissions:\n      contents: read\n      id-token: write\n`,
-            );
-
-            const coverageMarker = '      - run: npm run test:coverage\n';
-            if (!workflow.includes(coverageMarker)) {
-              throw new Error('Unable to find the coverage command');
-            }
-            workflow = workflow.replace(
-              coverageMarker,
-              `${coverageMarker}      - name: Upload coverage to Codecov\n        uses: codecov/codecov-action@v7\n        with:\n          files: ./coverage/lcov.info\n          use_oidc: true\n          fail_ci_if_error: false\n`,
-            );
-          }
-
-          fs.writeFileSync(workflowPath, workflow.endsWith('\n') ? workflow : `${workflow}\n`);
           NODE
 
-      - name: Commit final repository changes
+      - name: Commit final README changes
         run: |
           set -euo pipefail
           rm .github/workflows/standardise-package-badges-once.yml
@@ -135,7 +110,6 @@ jobs:
             packages/components/README.md \
             packages/integrations/analytics-appinsights/README.md \
             packages/cli/templates/README.md \
-            .github/workflows/ci.yml \
             .github/workflows/standardise-package-badges-once.yml
           git diff --cached --check
           git commit -m "docs: standardise package status badges"
