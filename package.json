@@ -72,13 +72,15 @@
     "vitest": "^4.1.11"
   },
   "overrides": {
+    "@humanfs/node": "^0.16.8",
     "brace-expansion": "5.0.9",
+    "decode-uri-component": "^0.5.0",
     "nanoid": "3.3.18",
     "js-yaml": "4.3.1",
     "esbuild": "^0.28.1",
     "minimatch": "^10.2.1",
     "picomatch": "^4.0.4",
-    "postcss": "^8.5.14",
+    "postcss": "^8.5.23",
     "react-inspector": "^9.0.0",
     "vite": "^8.1.4"
   }
