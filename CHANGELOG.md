@@ -26,6 +26,7 @@ The format is based on **[Keep a Changelog](https://keepachangelog.com/en/1.1.0/
   - Corrected public documentation to reference the published packages instead of the private repository root package.
 
 - **Security**
+  - Raised the `js-yaml` override to patched 4.3.2 to clear the empty-merge-source CPU advisory.
   - Raised the workspace overrides for `decode-uri-component`, `@humanfs/node`,
     and PostCSS to their patched versions and retained the patched esbuild line.
   - Removed the npm write-token path, added a fail-closed npm 11.5.1-or-newer OIDC guard, and denied fork PR code access to self-hosted CI.
