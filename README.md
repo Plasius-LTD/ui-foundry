@@ -120,4 +120,8 @@ denied. Publication uses the GitHub-hosted `production` job with Node 24 and
 pinned npm 11.6.2. It is token-free and proceeds only while the prepared SHA
 is the exact `main` head after successful push-triggered CI. Do not dispatch CD
 until the npm trusted-publisher binding is verified.
+
+Release validation runs the root workspace build before the selected package's
+tests and package checks. This produces Core type declarations before consumer
+packages build on a clean runner. Build and test input controls remain unchanged.
 <!-- END PLASIUS RELEASE INTEGRITY -->

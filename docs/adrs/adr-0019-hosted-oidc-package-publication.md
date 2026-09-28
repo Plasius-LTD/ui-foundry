@@ -19,6 +19,15 @@ newer, request provenance, and prohibit npm write-token fallbacks. Reviewed CI
 uses explicit GitHub-hosted runners with package-manager caching disabled; fork
 PR code is denied.
 
+## Workspace build order
+
+Within `validate_and_pack`, the existing root build script builds Core before its
+workspace consumers. Clean npm installs link local workspaces, so a selected
+consumer cannot assume Core declarations already exist. Run that dependency
+order before selected-package tests and package checks whenever builds are
+enabled. A failed workspace build stops validation before artifact creation;
+the OIDC publication job continues to run no repository dependency code.
+
 ## Consequences
 
 Missing trust configuration, moved `main`, absent CI, unsupported runtime, or
