@@ -8,6 +8,8 @@ The format is based on **[Keep a Changelog](https://keepachangelog.com/en/1.1.0/
 
 ## [Unreleased]
 
+- Refresh the core package baseline to verified npm version 0.1.4.
+
 - Refresh supported npm dependencies and published Plasius package baselines.
 
 - **Added**
