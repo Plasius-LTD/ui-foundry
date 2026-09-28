@@ -8,6 +8,20 @@ The format is based on **[Keep a Changelog](https://keepachangelog.com/en/1.1.0/
 
 ## [Unreleased]
 
+- **Added**
+  - (placeholder)
+
+- **Changed**
+  - (placeholder)
+
+- **Fixed**
+  - (placeholder)
+
+- **Security**
+  - (placeholder)
+
+## [0.1.1] - 2026-09-28
+
 - Refresh supported npm dependencies and published Plasius package baselines.
 
 - **Added**
@@ -36,4 +50,5 @@ The format is based on **[Keep a Changelog](https://keepachangelog.com/en/1.1.0/
 
 ---
 
-[Unreleased]: https://github.com/Plasius-LTD/ui-foundry/compare/main...HEAD
+[Unreleased]: https://github.com/Plasius-LTD/ui-foundry/compare/ui-foundry-cli-v0.1.1...HEAD
+[0.1.1]: https://github.com/Plasius-LTD/ui-foundry/releases/tag/ui-foundry-cli-v0.1.1
