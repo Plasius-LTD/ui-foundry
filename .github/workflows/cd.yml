@@ -410,11 +410,11 @@ jobs:
             PACKAGE_JSON="${PACKAGE_DIR}/package.json" node -e "const scripts = require('./' + process.env.PACKAGE_JSON).scripts || {}; process.exit(scripts[process.argv[1]] ? 0 : 1)" "$1"
           }
 
+          if [ "${RUN_BUILD}" = "true" ]; then
+            npm run build
+          fi
           if [ "${RUN_TESTS}" = "true" ] && has_package_script test; then
             npm --prefix "${PACKAGE_DIR}" run test
-          fi
-          if [ "${RUN_BUILD}" = "true" ] && has_package_script build; then
-            npm --prefix "${PACKAGE_DIR}" run build
           fi
           if has_package_script pack:check; then
             npm --prefix "${PACKAGE_DIR}" run pack:check
