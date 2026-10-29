@@ -8,6 +8,10 @@ The format is based on **[Keep a Changelog](https://keepachangelog.com/en/1.1.0/
 
 ## [Unreleased]
 
+- Clear release-qualification dependency advisories with Vitest/coverage 4.1.12, brace-expansion 5.0.12 and patched transitive build/test dependencies (#29).
+
+- Restore trusted-main-push CI on explicit self-hosted Linux/X64 runners, with bounded jobs, credential-free checkouts, type checks and workflow regression coverage; keep npm publication hosted and production-gated (#29).
+
 - Build workspace dependencies before selected-package CD validation so clean analytics integration releases can resolve Core type declarations.
 
 - Refresh workspace consumers after the verified core 0.1.4 release.

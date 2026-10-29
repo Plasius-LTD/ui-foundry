@@ -114,9 +114,11 @@ This project is licensed under the terms of the [Apache 2.0 license](./LICENSE).
 ## Release integrity
 
 CI keeps the administrative contributor registry outside Git and npm package
-artifacts using exact, case-normalised path checks. Reviewed CI runs on explicit
-GitHub-hosted runners with package-manager caching disabled; fork PR code is
-denied. Publication uses the GitHub-hosted `production` job with Node 24 and
+artifacts using exact, case-normalised path checks. CI runs only for trusted
+`main` pushes on explicit `[self-hosted, Linux, X64]` runners. Pull requests,
+manual dispatches and caller-selected runners cannot start CI. Checkouts do not
+persist credentials; package-manager caching is disabled and jobs have bounded
+timeouts. CI runs lint, typecheck, build, package checks and coverage. Publication uses the GitHub-hosted `production` job with Node 24 and
 pinned npm 11.6.2. It is token-free and proceeds only while the prepared SHA
 is the exact `main` head after successful push-triggered CI. Do not dispatch CD
 until the npm trusted-publisher binding is verified.
@@ -124,4 +126,9 @@ until the npm trusted-publisher binding is verified.
 Release validation runs the root workspace build before the selected package's
 tests and package checks. This produces Core type declarations before consumer
 packages build on a clean runner. Build and test input controls remain unchanged.
+
+If admission checks fail, disable the affected CI or CD workflow using GitHub
+Actions controls; do not add a hosted CI fallback or restore the prohibited path.
+The inherited `platform.public-artifact-integrity.enabled` flag controls staged
+restoration, but cannot bypass these mandatory checks.
 <!-- END PLASIUS RELEASE INTEGRITY -->
