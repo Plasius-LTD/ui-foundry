@@ -48,14 +48,25 @@ describe("package release trust boundary", () => {
     expect(publishJob).toContain("Revalidate exact main immediately before npm publication");
   });
 
-  it("keeps same-repository pull-request CI on explicit hosted runners", () => {
-    expect(ciWorkflow).toContain("workflow_dispatch:");
-    expect(ciWorkflow).toContain("pull_request:");
-    expect(ciWorkflow).toContain("runs-on: ubuntu-latest");
-    expect(ciWorkflow).toContain("package-manager-cache: false");
-    expect(ciWorkflow).toContain("github.event.pull_request.head.repo.full_name == github.repository");
-    expect(ciWorkflow).not.toContain("self-hosted");
+  it("runs CI only for trusted pushes on explicit self-hosted runners", () => {
+    const trigger = ciWorkflow.slice(0, ciWorkflow.indexOf("\njobs:"));
+    expect(trigger).toContain("push:");
+    expect(trigger).toContain("branches: [main]");
+    expect(trigger).not.toMatch(/pull_request|workflow_dispatch|workflow_call/u);
+    expect(ciWorkflow).not.toContain("ubuntu-latest");
     expect(ciWorkflow).not.toContain("pull_request_target");
-    expect(ciWorkflow).not.toContain("fromJSON(vars.");
+    expect(ciWorkflow).not.toContain("fromJSON");
+    const runners = [...ciWorkflow.matchAll(/^ {4}runs-on: (.+)$/gmu)];
+    expect(runners).toHaveLength(2);
+    for (const runner of runners) {
+      expect(runner[1]).toBe("[self-hosted, Linux, X64]");
+    }
+    expect(ciWorkflow.match(/if:.*github.event_name == 'push'.*github.ref == 'refs\/heads\/main'/gu)).toHaveLength(2);
+    expect(ciWorkflow.match(/persist-credentials: false/gu)).toHaveLength(2);
+    expect(ciWorkflow.match(/timeout-minutes: /gu)).toHaveLength(2);
+    expect(ciWorkflow).toContain("package-manager-cache: false");
+    expect(ciWorkflow).toContain("npm run typecheck");
+    expect(ciWorkflow).toContain("npm run test:coverage");
+    expect(ciWorkflow).toContain("npm run pack:check");
   });
 });

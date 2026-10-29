@@ -16,8 +16,13 @@ Publish only from the GitHub-hosted `production` job using npm trusted
 publishing. Prove the prepared SHA is still the exact remote `main` head and
 that push-triggered `ci.yml` succeeded for it. Require Node 24 and npm 11.5.1 or
 newer, request provenance, and prohibit npm write-token fallbacks. Reviewed CI
-uses explicit GitHub-hosted runners with package-manager caching disabled; fork
-PR code is denied.
+uses explicit `[self-hosted, Linux, X64]` runners only for trusted `main`
+pushes, with package-manager caching and persisted checkout credentials disabled.
+PR events, reusable calls, manual dispatches and caller-controlled runner
+selection are excluded; both jobs also check the event and exact main ref.
+Jobs have bounded timeouts. Hosted CI is not a fallback. This reconciles the
+runner boundary with recovery Task #29 and Story #1626; hosted publication
+remains unchanged.
 
 ## Workspace build order
 
@@ -36,3 +41,15 @@ missing OIDC identity fails closed before publication.
 ## Test implications
 
 Workflow tests enforce source, CI, runtime, identity, runner, and token rules.
+The regression first fails against hosted CI. Both CI jobs must keep explicit
+labels and main-push guards. Rollback disables the affected workflow/channel
+without restoring the prohibited path. Feature1597 inherits
+`platform.public-artifact-integrity.enabled`; mandatory checks cannot be bypassed.
+
+## Alternatives
+
+Hosted CI contradicts the recovery acceptance criteria. Same-repository PR
+execution and arbitrary manual refs widen access to persistent runner capacity,
+so CI admits only main pushes. Local validation and PR review precede merge;
+exact-main CI must succeed before publication. No runtime API or package
+dependency changes are needed.
