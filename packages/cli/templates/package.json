@@ -36,10 +36,10 @@
     "prompts": "^2",
     "fast-glob": "^3",
     "fs-extra": "^11",
-    "handlebars": "^4.7.9"
+    "handlebars": "^4.7.10"
   },
   "devDependencies": {
-    "vitest": "^4.1.11",
+    "vitest": "^4.1.12",
     "typescript": "^5.9",
     "tsup": "^8"
   },
