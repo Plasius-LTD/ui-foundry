@@ -8,6 +8,8 @@ The format is based on **[Keep a Changelog](https://keepachangelog.com/en/1.1.0/
 
 ## [Unreleased]
 
+- Refresh verified published @plasius dependency baselines after the weekly security release wave.
+
 - Refresh supported build/test dependencies and transitive security resolutions for the weekly npm rollout.
 
 - **Added**
