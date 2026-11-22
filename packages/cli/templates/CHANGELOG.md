@@ -8,6 +8,20 @@ The format is based on **[Keep a Changelog](https://keepachangelog.com/en/1.1.0/
 
 ## [Unreleased]
 
+- **Added**
+  - (placeholder)
+
+- **Changed**
+  - (placeholder)
+
+- **Fixed**
+  - (placeholder)
+
+- **Security**
+  - (placeholder)
+
+## [0.1.2] - 2026-11-22
+
 - Refresh supported build/test dependencies and transitive security resolutions for the weekly npm rollout.
 
 - **Added**
@@ -52,5 +66,6 @@ The format is based on **[Keep a Changelog](https://keepachangelog.com/en/1.1.0/
 
 ---
 
-[Unreleased]: https://github.com/Plasius-LTD/ui-foundry/compare/ui-foundry-cli-v0.1.1...HEAD
+[Unreleased]: https://github.com/Plasius-LTD/ui-foundry/compare/ui-foundry-cli-v0.1.2...HEAD
 [0.1.1]: https://github.com/Plasius-LTD/ui-foundry/releases/tag/ui-foundry-cli-v0.1.1
+[0.1.2]: https://github.com/Plasius-LTD/ui-foundry/releases/tag/ui-foundry-cli-v0.1.2
