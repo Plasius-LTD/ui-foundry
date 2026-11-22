@@ -30,10 +30,10 @@
     "node": ">=24"
   },
   "peerDependencies": {
-    "@plasius/ui-foundry-core": "^0.1.4"
+    "@plasius/ui-foundry-core": "^0.1.5"
   },
   "devDependencies": {
-    "@plasius/ui-foundry-core": "^0.1.4",
+    "@plasius/ui-foundry-core": "^0.1.5",
     "typescript": "^5.9",
     "tsup": "^9.0.0",
     "vitest": "^5.1.1",
