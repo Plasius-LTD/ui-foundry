@@ -8,6 +8,20 @@ The format is based on **[Keep a Changelog](https://keepachangelog.com/en/1.1.0/
 
 ## [Unreleased]
 
+- **Added**
+  - (placeholder)
+
+- **Changed**
+  - (placeholder)
+
+- **Fixed**
+  - (placeholder)
+
+- **Security**
+  - (placeholder)
+
+## [0.1.5] - 2026-11-22
+
 - Refresh verified published @plasius dependency baselines after the weekly security release wave.
 
 - Refresh supported build/test dependencies and transitive security resolutions for the weekly npm rollout.
@@ -98,8 +112,9 @@ The format is based on **[Keep a Changelog](https://keepachangelog.com/en/1.1.0/
 
 ---
 
-[Unreleased]: https://github.com/Plasius-LTD/ui-foundry/compare/ui-foundry-core-v0.1.4...HEAD
+[Unreleased]: https://github.com/Plasius-LTD/ui-foundry/compare/ui-foundry-core-v0.1.5...HEAD
 [0.1.1]: https://github.com/Plasius-LTD/ui-foundry/releases/tag/ui-foundry-core-v0.1.1
 [0.1.2]: https://github.com/Plasius-LTD/ui-foundry/releases/tag/ui-foundry-core-v0.1.2
 [0.1.3]: https://github.com/Plasius-LTD/ui-foundry/releases/tag/ui-foundry-core-v0.1.3
 [0.1.4]: https://github.com/Plasius-LTD/ui-foundry/releases/tag/ui-foundry-core-v0.1.4
+[0.1.5]: https://github.com/Plasius-LTD/ui-foundry/releases/tag/ui-foundry-core-v0.1.5
