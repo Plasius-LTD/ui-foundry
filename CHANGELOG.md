@@ -8,6 +8,8 @@ The format is based on **[Keep a Changelog](https://keepachangelog.com/en/1.1.0/
 
 ## [Unreleased]
 
+- Refresh supported npm dependencies and transitive security fixes across published tooling and runtime dependency locks.
+
 - Build workspace dependencies before selected-package CD validation so clean analytics integration releases can resolve Core type declarations.
 
 - Refresh workspace consumers after the verified core 0.1.4 release.
